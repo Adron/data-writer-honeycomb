@@ -25,8 +25,6 @@ func main() {
 	go loadHoneycombData(1000000, "load 4")
 	go loadHoneycombData(1000000, "load 5")
 
-
-
 	fmt.Print("Working... press key to end.\n")
 	fmt.Scanln()
 	fmt.Println("Finished.\n")
