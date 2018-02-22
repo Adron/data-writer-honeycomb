@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"github.com/honeycombio/libhoney-go"
-	"time"
 	"github.com/dmgk/faker"
-
+	"github.com/honeycombio/libhoney-go"
+	"os"
+	"time"
 )
 
 func main() {
@@ -17,7 +16,7 @@ func main() {
 		Dataset:  "logstash-sample-data-mocker-example",
 	})
 
-	//defer libhoney.Close() // Flush any pending calls to Honeycomb
+	defer libhoney.Close() // Flush any pending calls to Honeycomb
 
 	go loadHoneycombData(1000000, "load 1")
 	go loadHoneycombData(1000000, "load 2")
@@ -69,7 +68,7 @@ func loadHoneycombData(repeat int, ident string) {
 			"source_host":               "ip-10-1-47-121",
 			"srv_queue":                 "0",
 			"srvconn":                   "0",
-			"tags":                      "[\"haproxy\",\"" + faker.Hacker().Adjective()  + "\",\"" + faker.Hacker().Noun()  + "\"]",
+			"tags":                      "[\"haproxy\",\"" + faker.Hacker().Adjective() + "\",\"" + faker.Hacker().Noun() + "\"]",
 			"termination_state":         "PT--",
 			"time_backend_connect":      -1,
 			"time_backend_response":     -1,
