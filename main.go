@@ -10,7 +10,8 @@ import (
 )
 
 func main() {
-	fmt.Println("Key in use THRASHER_HONEYCOMBKEY", os.Getenv("THRASHER_HONEYCOMBKEY"))
+	goRoutineCount := 10
+	perRoutineCount := 100000
 
 	libhoney.Init(libhoney.Config{
 		WriteKey: os.Getenv("THRASHER_HONEYCOMBKEY"),
@@ -19,18 +20,20 @@ func main() {
 
 	defer libhoney.Close()
 
-	for i := 1; i < 10; i++ {
-		go loadHoneycombData(100000, "load_"+strconv.Itoa(i))
+	fmt.Println("Starting @ " + time.Now().UTC().Format("2006-01-02T15:04:05.999999-07:00"))
+
+	for i := 1; i < goRoutineCount; i++ {
+		go loadHoneycombData(perRoutineCount, "load_"+strconv.Itoa(i))
 	}
 
-	fmt.Print("Working... press key to end.\n")
+	fmt.Print("Working...\n\npress key to end.\n")
 	fmt.Scanln()
 	fmt.Println("Finished @ " + time.Now().UTC().Format("2006-01-02T15:04:05.999999-07:00"))
 }
 
 func loadHoneycombData(repeat int, ident string) {
-	fmt.Print("started ping " + ident + "\n")
 	for i := 0; i < repeat; i++ {
+
 		hostLogSource := faker.Internet().IpV4Address()
 		duration, _ := time.ParseDuration(faker.Number().Between(1, 999) + "ms")
 
@@ -81,5 +84,4 @@ func loadHoneycombData(repeat int, ident string) {
 			"type":                      "haproxy",
 		})
 	}
-	fmt.Print("done ping " + ident + "\n")
 }
